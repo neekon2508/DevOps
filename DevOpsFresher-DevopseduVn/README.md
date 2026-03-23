@@ -510,8 +510,11 @@ server {
     }
 }
 ```
+
 - systemctl restart nginx
+
 ## Notes
+
 - /var/lib/jenkins: jenkins config files
 - /etc/passwd: check the jenkin user
 - Plugins
@@ -521,41 +524,53 @@ server {
 - user
 - System log
 - Jenkins CLI (important):
+
 # Jenkins CI/CD (Continuos Deployment)
+
 ## Connect Jenkins Agent to Jenkins Server
+
 - When using Jenkins, use Jenkins Agent instead of SSH.
 - Require: Server must have the same Java version with Jenkin server
 - Multiple java versions: update-alternatives --config java
 - add user jenkins
 - Security: Agents: TCP port inbound -> Fixed: 8999
 - On web Jenkins, Manage Jenkins/Nodes: New Nodes
-- New Nodes: Custom WorkDir Path: /var/lib/jenkins: mkdir /var/lib/jenkins
+- New Nodes: Custom WorkDir Path: /var/lib/jenkins: mkdir /var/lib/jenkins in ubuntu server
 - chown jenkin. /var/lib/jenkins/
 - cd /var/lib/jenkins and su jenkins
-- Run commands in "On run from agent command line, with the...Unix" + > nohub.out 2>&1 in last command
-- New Item: Folder, Name: action-in-lab
+- On Ubuntu server, Run commands in "On run from agent command line, with the...Unix but the last command is: java -jar agent.jar -url http://192.168.1.111:8080/ -secret @secret-file -name "test_server" -webSocket -workDir "/var/lib/jenkins/" > nohup.out 2>&1
+- New Item: Folder, Name: action-in-lab -> Save
+
 ## Connect Jenkins Server to GitHub/GitLab
+
 ### Install Plugins
- Install Plugin: GitLab/Github + Blue Ocean -> Restart tick
-- System -> GitLab/Github + config github domain in /etc/hosts  
+
+Install Plugin: GitLab/Github + Blue Ocean -> Restart tick
+
+- System -> GitLab/Github + config github domain in /etc/hosts
 - Credentials: Access Token. In Github: create new admin user + get access token.
+
 ### Configure Pipeline
+
 - In folder, New Item: Create pipeline -> name of project
 - Discard old builds: Max 10, Build trigger: when a change (push event, accepted merge request), pipeline script from SCM -> Git
+
 ### Configure Webhook
+
 - Settings -> Network -> Outbound requests -> allow...from web hooks
 - On Jenkins web, admin -> configure -> api token
-- In Gitlab/Github, setting -> Webhooks
+- In Gitlab/Github, projec -> setting -> Webhooks
 - url: http://<user on jenkins\>:<token user in jenkin\>@<jenkin ip\>/project/<pipeline address on jenkins\>
 - Tick tag event, merge request, remove enable ssl
 - In pipeline: add branch develop
 - Jenkinsfile: www.jenkins.io/doc/book/pipeline/syntax
+
 ```
 pipeline {
   agent {
     label '<label in jenkins agent>'
   }
-  environment: {
+  environment {
     appUser = ""
     appName = ""
     appVersion = ""
@@ -577,16 +592,44 @@ pipeline {
     stage('deploy') {
       steps {
         sh(script: """ ${buildScript} """, label: "build with maven")
+        sh(script: """ ${permsScript} """, label: "set permission folder")
+        sh(script: """ ${killScript} """, label: "terminate the running process")
+        sh(script: """ ${runScript} """, label: "run the project)
       }
     }
   }
 }
 ```
+
 - in Ubuntu server: visudo
+
 ```
+root ALL=(ALL:ALL) ALL
 # User privilege specification
 jenkins ALL=(ALL) NOPASSWD: /bin/cp*
 jenkins ALL=(ALL) NOPASSWD: /bin/kill*
 jenkins ALL=(ALL) NOPASSWD: /bin/chown*
 jenkins ALL=(ALL) NOPASSWD: /bin/su <project>*
 ```
+
+### Configure React Jenkinsfile
+
+- In Ubuntu server: nano /etc/nginx/conf.d/<project\>.conf
+
+```
+server {
+    listen <port>;
+    # Nếu bạn dùng cổng khác (ví dụ 8081), hãy sửa ở đây
+    server_name 192.168.1.111;
+
+    root /var/www/html/wheel-of-names;
+    index index.html;
+
+    location / {
+        # Quan trọng cho React/Vite: chuyển mọi request về index.html để tránh lỗi 404 khi F5
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
+-See Jenkinsfile_react

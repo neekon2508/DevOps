@@ -1,6 +1,9 @@
 DevServer: neekon2508-Nghia2508@
 wlp2s0b1
 HNI013721396
-admin	
-Passwd2@
+admin:Nghia2508@
 14.162.61.179
+- Ubuntu server
+jenkins:jenkins
+-jenkin server 
+admin user: admin:admin
