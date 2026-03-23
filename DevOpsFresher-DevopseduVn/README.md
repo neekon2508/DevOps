@@ -477,6 +477,12 @@ services:
 
 Jenkin :open source automation server, provide hundreds of plugins to support building, deploying and automating any project.
 
+## CI/CD with Jenkins
+
+- GitHub/GitLab: git push code. GitHub Webhooks to Jenkins
+- Jenkins Server: build & test, docker build, push to Docker Hub
+- Ubuntu Server: docker pull, stop and run
+
 ## Install Jenkin Server
 
 - Check jenkins-install.sh
