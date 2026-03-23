@@ -10,7 +10,7 @@
   network:
     ethernets:
       ens33:
-        dhcp4: false
+        **dhcp4**: false
         addresses: [192.168.1.110/24] //sample
         gateway4: 192.162.1.1 //your pc ip gateway
       version: 2
@@ -509,5 +509,84 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
+```
 - systemctl restart nginx
+## Notes
+- /var/lib/jenkins: jenkins config files
+- /etc/passwd: check the jenkin user
+- Plugins
+- Nodes: Add jenkins agents to jenkins server (important)
+- security
+- credentials (important)
+- user
+- System log
+- Jenkins CLI (important):
+# Jenkins CI/CD (Continuos Deployment)
+## Connect Jenkins Agent to Jenkins Server
+- When using Jenkins, use Jenkins Agent instead of SSH.
+- Require: Server must have the same Java version with Jenkin server
+- Multiple java versions: update-alternatives --config java
+- add user jenkins
+- Security: Agents: TCP port inbound -> Fixed: 8999
+- On web Jenkins, Manage Jenkins/Nodes: New Nodes
+- New Nodes: Custom WorkDir Path: /var/lib/jenkins: mkdir /var/lib/jenkins
+- chown jenkin. /var/lib/jenkins/
+- cd /var/lib/jenkins and su jenkins
+- Run commands in "On run from agent command line, with the...Unix" + > nohub.out 2>&1 in last command
+- New Item: Folder, Name: action-in-lab
+## Connect Jenkins Server to GitHub/GitLab
+### Install Plugins
+ Install Plugin: GitLab/Github + Blue Ocean -> Restart tick
+- System -> GitLab/Github + config github domain in /etc/hosts  
+- Credentials: Access Token. In Github: create new admin user + get access token.
+### Configure Pipeline
+- In folder, New Item: Create pipeline -> name of project
+- Discard old builds: Max 10, Build trigger: when a change (push event, accepted merge request), pipeline script from SCM -> Git
+### Configure Webhook
+- Settings -> Network -> Outbound requests -> allow...from web hooks
+- On Jenkins web, admin -> configure -> api token
+- In Gitlab/Github, setting -> Webhooks
+- url: http://<user on jenkins\>:<token user in jenkin\>@<jenkin ip\>/project/<pipeline address on jenkins\>
+- Tick tag event, merge request, remove enable ssl
+- In pipeline: add branch develop
+- Jenkinsfile: www.jenkins.io/doc/book/pipeline/syntax
+```
+pipeline {
+  agent {
+    label '<label in jenkins agent>'
+  }
+  environment: {
+    appUser = ""
+    appName = ""
+    appVersion = ""
+    appType = ""
+    processName = "${appName}-${appVersion}.${appType}"
+    folderDeploy = "/datas/${appUser}"
+    buildScript = "mvn clean install -DskipTests-true"
+    copyScript = "sudo cp target/${processName} ${folderDeploy}"
+    permsScript = "sudo chown -R ${appUser}. ${folderDeploy}
+    killScript = "sudo kill -9 \$(ps -ef| grep ${processName}| grep -v grep| awk '{print \$2}')"
+    runScript = 'sudo su ${appUser} -c "cd ${folderDeploy}; java -jar ${processName} > nohub.out 2>&1 &"'
+  }
+  stages {
+    stage('build') {
+      steps {
+        sh(script: """ ${buildScript} """, label: "build with maven")
+      }
+    }
+    stage('deploy') {
+      steps {
+        sh(script: """ ${buildScript} """, label: "build with maven")
+      }
+    }
+  }
+}
+```
+- in Ubuntu server: visudo
+```
+# User privilege specification
+jenkins ALL=(ALL) NOPASSWD: /bin/cp*
+jenkins ALL=(ALL) NOPASSWD: /bin/kill*
+jenkins ALL=(ALL) NOPASSWD: /bin/chown*
+jenkins ALL=(ALL) NOPASSWD: /bin/su <project>*
 ```
