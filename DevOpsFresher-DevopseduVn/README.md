@@ -633,3 +633,135 @@ server {
 ```
 
 -See Jenkinsfile_react
+
+## Config Jenkins Agents Service
+
+- Use to turn on after turning off jenkin agent.
+- vi /etc/systemd/system/jenkins-agent.service
+
+```
+[Unit]
+Description=Jenkins Agent Service
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=simple
+User=jenkins
+Group=jenkins
+WorkingDirectory=/var/lib/jenkins
+ExecStart=/user/bin/bash -c 'java -jar agent.jar -jnlpUrl http://192.168.1.111:8080/computer/test-server/jenkins-agent.jnlp -secret @secret-file -workDir "/var/lib/jenkins/"'
+Restart=always
+[Install]
+WantedBy=multi-user.target
+```
+
+- systemctl daemon-reload
+- systemctl start jenkins-agent
+- systemctl status jenkins-agent
+
+# Jenkins CI/CD (Continuos Delivery)
+
+- You have a large project, must have one person to check
+
+```
+stages{
+  ...
+  stage('deploy') {
+    steps {
+      script {
+        try {
+          timeout(time: 5, unit: 'MINUTES') {
+            env.useChoice = input message: "Can it be deployed?",
+              parameters: [choice(name: deploy, choices: 'no\nyes', description: 'Choose "yes" if you want to deploy')]
+          }
+          if (env.useChoice == 'yes') {
+            sh(...)
+          } else {
+            echo "Don not confirm the deployment!"
+          }
+        } catch (Exception err) {
+
+        }
+      }
+
+    }
+  }
+}
+```
+
+# Monitoring
+
+## Install Zabbix
+
+# Optimize Server
+
+## Check
+
+- free -h
+- docker stats
+- sudo sync; echo 3 | sudo tee /proc/sys/vm/drop_caches
+
+## Swap
+
+- Get Disk to virtual RAM
+
+```
+# Tạo file swap 4GB
+sudo fallocate -l 4G /swapfile
+# Phân quyền bảo mật
+sudo chmod 600 /swapfile
+# Thiết lập hệ thống swap
+sudo mkswap /swapfile
+sudo swapon /swapfile
+# Lưu cấu hình để khi gập máy/reboot không bị mất
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+```
+
+## Ubuntu Server
+
+- Snapd: turn off
+
+```
+sudo systemctl stop snapd
+sudo systemctl disable snapd
+```
+
+- Multipathd
+
+```
+sudo systemctl stop multipathd
+sudo systemctl disable multipathd
+```
+
+## Docker
+
+- Clean Docker: docker system prune -a --volumes -f
+
+## Oracle DB
+
+- SGA/PGA optimize
+
+```
+
+ALTER SYSTEM SET sga_target = 600M SCOPE=SPFILE;
+ALTER SYSTEM SET pga_aggregate_target = 200M SCOPE=SPFILE;
+EXIT;
+
+```
+
+## Jenkins
+
+- Optimze Heapsize
+
+```
+
+services:
+jenkins:
+...
+environment: - JAVA_OPTS=-Xmx512m -Xms256m -XX:MaxMetaspaceSize=256m
+
+```
+
+```
+
+```
