@@ -1,0 +1,4 @@
+- GitHub: git push code
+- GitHub Webhooks to Jenkins
+- Jenkins: build & test, docker build, push to Docker Hub
+- Ubuntu Server: docker pull, stop and run
