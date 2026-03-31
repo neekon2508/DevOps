@@ -2,7 +2,18 @@
 
 - Link: aws.amazon.com/ec2/instance-types/
 
-# SSH 
+# SSH
+
 - chmod 0400 <file.pem\>
 - ssh -i <file.pem\> ec2-user@<public-ip\>
-- 
+
+# EC2 Instance Roles Demo
+
+- aws --version
+- aws configure -> input access -> bad idea
+- Instances -> Choose instance -> Actions -> Security -> Modify IAM Role
+- Check: aws iam list-users
+
+# EC2 Instances Lauch Types
+
+- Spot Request -> Request Spot Instances -> Create Spot Fleet request
