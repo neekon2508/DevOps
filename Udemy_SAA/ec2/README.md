@@ -17,3 +17,14 @@
 # EC2 Instances Lauch Types
 
 - Spot Request -> Request Spot Instances -> Create Spot Fleet request
+
+# Elastic IP
+
+- EC2 -> Elastic IP addresses -> Allocate Elastic IP address
+- aws.amazon.com/vpc/pricing
+- Actions -> Associate elastic IP address
+
+# Placement Group
+
+- EC2 -> Placement Groups -> Create Placement Group
+- When creating instance, you can add it to the created placement groups.
