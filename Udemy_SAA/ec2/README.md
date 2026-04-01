@@ -28,3 +28,25 @@
 
 - EC2 -> Placement Groups -> Create Placement Group
 - When creating instance, you can add it to the created placement groups.
+
+# Elastic Network Interfaces (ENI)
+
+- EC2 -> Network interfaces -> Create network interface
+
+# EC2 Hibernate
+- When creating EC2 instance -> Stop-Hibernate behavior: enable
+
+# EBS
+- EC2 -> Instances -> Choose instance -> Storage
+- EC2 -> Volumes -> Create volume
+- Actions -> Attatch volume
+
+# EBS Snapshot
+- EC2 -> Volumes -> Choose volume -> Actions -> Create snapshot
+- EC2 -> Snapshots -> choose snapshot -> Copy snapshot, create volume from snapshot, Archive tier
+- Recycle Bin -> Retention rules -> Create retention rule
+- Recycle Bin -> Resources -> Choose snapshot -> Recover
+# AMI
+- EC2 -> Instances -> Choose instace -> Create image
+- EC2 -> AMIs
+- Create instance -> my amis
