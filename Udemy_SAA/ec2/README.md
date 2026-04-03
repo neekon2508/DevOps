@@ -65,3 +65,6 @@
 - EFS -> Create file system
 - When creating instance -> Network settings -> Subnet -> EBS Volumes: File systems
 - ls /mnt/efs/fsl/ + sudo su + echo "" > /mnt/efs/fsl/hello.txt
+# ALB (Application Load Balancer)
+
+- EC2 -> Load Balancer -> Create Load Balancer -> Create Application Load Balancer -> IP address type: Ipv4 + Network Mapping + Security groups + Listeners and routing, create Target groups + Edit inbound rules of security group
