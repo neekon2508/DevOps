@@ -65,6 +65,18 @@
 - EFS -> Create file system
 - When creating instance -> Network settings -> Subnet -> EBS Volumes: File systems
 - ls /mnt/efs/fsl/ + sudo su + echo "" > /mnt/efs/fsl/hello.txt
+
 # ALB (Application Load Balancer)
 
 - EC2 -> Load Balancer -> Create Load Balancer -> Create Application Load Balancer -> IP address type: Ipv4 + Network Mapping + Security groups + Listeners and routing, create Target groups + Edit inbound rules of security group
+- Add rules:
+
+# NLB (Network Load Balancer)
+
+# Elastic Load Balancer - Sticky Sessions
+
+- EC2 -> Target groups -> Choose target group -> Actions -> Edit attributes -> Turn on stickiness -> Stickiness type: Load balancer generated cookie -> Stickiness duration: 1 + Unit of time: days
+
+# Elastic Load Balancer - Cross Zone Load Balancing
+
+- Choose Load Balancer -> Attribute: Edit -> Cross-zone load balancing
