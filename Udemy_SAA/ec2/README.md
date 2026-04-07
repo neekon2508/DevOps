@@ -82,14 +82,28 @@
 - Choose Load Balancer -> Attribute: Edit -> Cross-zone load balancing
 
 # Elastic Load Balancer - SSL Certificates
+
 - Choose Load balancer -> Add listener -> Protocol: HTTPS -> Default action: Forward to: Choose target group -> Add action: Choose security policy -> Default SSL/TLS certificate:
+
 # ASG (Auto Scaling Groups)
+
 - EC2 -> ASG -> Create ASG
 - Create a launch template -> Launch template contents: Application and OS images (AMI)
 - Choose instance launch options
 - Integrate with other services: Attach to an existing load balancer -> Health checks: turn on ELB health checks
+
 # ASG - Scaling Policies
-- Choose ASG -> Automatic scaling 
-- Create scheduled action  
-- Create predictive scaling policy -> Metrics and target utilization 
+
+- Choose ASG -> Automatic scaling
+- Create scheduled action
+- Create predictive scaling policy -> Metrics and target utilization
 - Create dynamic scaling policy
+
+# Amazon Aurora
+
+- Create Database -> Standard create -> Aurora (MySQL) -> Templates: Production -> Settings: DB cluster identifier
+- Choose database -> Actions -> Add replica auto scaling
+
+# ElastiCache
+
+- ElastiCache -> Caches -> Create cache -> Subnet group settings
