@@ -50,3 +50,21 @@
   }
 ]
 ```
+# S3 MFA Delete
+- When create bucket -> Default encryption: Enable
+- IAM -> Your Security Credentials -> MFA: Serial number 
+Access key -> Create access key: access key + secret access key
+```
+# generate root access keys
+aws configure --profile root-mfa-delete-demo
+
+# enable mfa delete
+aws s3api put-bucket-versioning --bucket <bucket> --versioning-configuration Status=Enabled,MFADelete=Enabled --mfa "arn-of-mfa-device mfa-code" --profile <profile>
+# disable mfa delete
+aws s3api put-bucket-versioning --bucket <bucket> --versioning-configuration Status=Enabled,MFADelete=Disabled --mfa "arn-of-mfa-device mfa-code" --profile <profile>
+# delete the root credentials in IAM console
+```
+# S3 Access Logs
+- Choose bucket -> Edit server access logging: Enable
+# S3 Pre-signed URLs
+- Choose object -> Object actions -> Share with a presigned URL
