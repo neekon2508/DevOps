@@ -23,3 +23,30 @@
 
 - Choose bucket -> Properties -> Amazon EventBridge:Edit:On -> Create event notification
 - AWS Policy Generator: awspolicygen.s3.amazonaws.com/policygen.html
+
+# S3 Encryption
+
+- When create bucket -> Default encryption
+- Click file -> Server-side encryption settings: Edit
+
+# S3 CORS
+
+- Choose bucket -> Permissions -> CORS: Edit
+
+```
+[
+  {
+    "AllowedHeaders": [
+        "Authorization"
+    ],
+    "AllowedMethods": [
+        "GET"
+    ],
+    "AllowedOrigins": [
+        "<origin>"
+    ],
+    "ExposeHeaders": [],
+    "MaxAgeSeconds": 3000
+  }
+]
+```
