@@ -68,3 +68,9 @@ aws s3api put-bucket-versioning --bucket <bucket> --versioning-configuration Sta
 - Choose bucket -> Edit server access logging: Enable
 # S3 Pre-signed URLs
 - Choose object -> Object actions -> Share with a presigned URL
+# CloudFront with S3
+- CloudFront -> Distributions -> Create distribution
+# CloudFront - Geo Restriction
+- Choose distribution -> Security -> CloudFront geographic restrictions: Edit
+# AWS Global Accelerator
+- AWS Global Accelerator -> Accelerators -> Create accelerator
