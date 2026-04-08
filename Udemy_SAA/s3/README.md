@@ -74,3 +74,10 @@ aws s3api put-bucket-versioning --bucket <bucket> --versioning-configuration Sta
 - Choose distribution -> Security -> CloudFront geographic restrictions: Edit
 # AWS Global Accelerator
 - AWS Global Accelerator -> Accelerators -> Create accelerator
+
+# AWS Snow Family
+- Snow family -> Create new job
+# Amazon FSx
+- Amazon FSx -> Create file system
+# Storage Gateway
+- Storage Gateway -> Gateways -> Create gateway
