@@ -1,0 +1,34 @@
+networks:
+  counter-net:
+volumes:
+  counter-vol:
+  
+services:
+  web-fe:
+    build: .
+    deploy:
+      replicas: 1
+    command: python app/app.py
+    ports:
+      - target: 8080
+        published: 5001
+    networks:
+      - counter-net
+# Older versions of the book used a volume here to demonstrate troubleshooting a mis-config
+# I stopped using this in the 2024 edition. The volume now starts in its correct location
+# in the redis service
+#    volumes:
+#      - type: volume
+#        source: counter-vol
+#        target: /app
+  redis:
+    image: redis:alpine
+    deploy:
+      replicas: 1
+    networks:
+      counter-net:
+    volumes:
+      - type: volume
+        source: counter-vol
+        target: /data
+
