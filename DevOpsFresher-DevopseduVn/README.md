@@ -87,6 +87,8 @@ https://www.linuxfoundation.org/blog/blog/classic-sysadmin-the-linux-filesystem-
 
 ## touch <file\>
 
+- create new file
+
 ## rm <file\>
 
 ## rm -r <folder\>
@@ -121,7 +123,7 @@ https://www.linuxfoundation.org/blog/blog/classic-sysadmin-the-linux-filesystem-
 
 ## top
 
-## hostnamectl set-hostname <newNameServer>
+## hostnamectl set-hostname <newNameServer\>
 
 ## reboot
 
@@ -136,7 +138,7 @@ https://www.linuxfoundation.org/blog/blog/classic-sysadmin-the-linux-filesystem-
 
 ## ps -ef
 
-- Running process
+- Display running process
 
 ## ping
 
@@ -170,6 +172,8 @@ vim <file\>
 
 ### useradd <newUser\>
 
+- Don't use this
+
 ### adduser <newUser\>
 
 - Use this
@@ -178,7 +182,7 @@ vim <file\>
 
 ### vi /etc/passwd
 
-### deluser <user>
+### deluser <user\>
 
 ## Group
 
@@ -188,6 +192,8 @@ vim <file\>
 
 ### usermod -aG <group\> <user\>
 
+- Add user to group
+
 ### groups <user\>
 
 -When creating user, system auto create group with same name and add user to this group
@@ -196,11 +202,11 @@ vim <file\>
 
 ## Permission
 
-### When using ls -l, the order print is: <user\> <group>
+### When using ls -l, the order print is: <user\> <group\>
 
-### chown <oldGroup>:<newGroup> <folder\>/
+### chown <newOwner\>:<newGroup\> <folder\>/
 
-- chown -R <oldGroup\>:<newGroup\> <folder\>/
+- chown -R <newOwner\>:<newGroup\> <folder\>/
 - Know file or foler: use ls -l and check the first character: having "-" is file, d is folder
 
 ### 3 permissions: r,w,x
@@ -230,7 +236,7 @@ vim <file\>
 - Steps: Build + Run
 - Note: each project has its own folder + users
 
-# Implement Frontend project
+## Implement Frontend project
 
 - scp <file.zip\> <user\>@<address\>:/home/<folder\>
 - apt install unzip + unzip <file.zip\>
@@ -247,7 +253,7 @@ apt install nodejs -y
 
 - Run frontend: web server, service, pm2
 
-### nginx
+### Option 1: nginx
 
 - etc/nginx: all configuration
 - sites-available/default: default-config
@@ -256,9 +262,9 @@ apt install nodejs -y
 - nginx -t: test
 - systemctl restart nginx: apply
 
-### service
+### Option 2: service
 
-- vi /lib/systemd/system/<project\>.service
+- vi /etc/systemd/system/<project\>.service
 - In service file:
 
 ```
@@ -266,12 +272,17 @@ Type=simple
 User=<project>
 Restart=on-failure
 WorkingDirectory=<address>
-ExecStart=npm run start -- --port=3000 //example
+ExecStart=npm run start -- --port=3000
 ```
 
 - systemctl daemon-reload
 - systemctl start <project\>
 - systemctl status <project\>
+
+### Which option to choose?
+
+- Nginx: FE app is SPA (React, Angular, Vue.js, HTML/CSS/JS)
+- Service: FE app use SSR (Next.js, Nuxt.js, Remix)
 
 ## Implement Backend project
 
@@ -281,7 +292,7 @@ ExecStart=npm run start -- --port=3000 //example
 ### Run backend in background
 
 - nohup java -jar ... 2>&1 &
-- ps -ef| grep | <searchKey\>
+- ps -ef| grep <searchKey\>
 - kill -9 <pid\>
 
 ```
