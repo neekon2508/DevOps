@@ -1,0 +1,3 @@
+- root account: nghia250803@gmail.com Nghia250803@
+- IAM user: aws-neekon-v1
+neekon_admin Nghia2508@ 
