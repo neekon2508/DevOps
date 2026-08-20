@@ -549,7 +549,7 @@ server {
 - New Nodes: Custom WorkDir Path: /var/lib/jenkins: mkdir /var/lib/jenkins in ubuntu server
 - chown jenkin. /var/lib/jenkins/
 - cd /var/lib/jenkins and su jenkins
-- On Ubuntu server, Run commands in "On run from agent command line, with the...Unix but the last command is: java -jar agent.jar -url http://192.168.1.111:8080/ -secret @secret-file -name "test_server" -webSocket -workDir "/var/lib/jenkins/" > nohup.out 2>&1
+- On Ubuntu server, Run commands in "On run from agent command line, with the...Unix but the last command is: nohup java -jar agent.jar -url http://192.168.1.111:8080/ -secret @secret-file -name "test_server" -webSocket -workDir "/var/lib/jenkins/" > nohup.out 2>&1 &
 - New Item: Folder, Name: action-in-lab -> Save
 
 ## Connect Jenkins Server to GitHub/GitLab
@@ -571,7 +571,9 @@ Install Plugin: GitLab/Github + Blue Ocean -> Restart tick
 - Settings -> Network -> Outbound requests -> allow...from web hooks
 - On Jenkins web, admin -> configure -> api token
 - In Gitlab/Github, projec -> setting -> Webhooks
-- url: http://<user on jenkins\>:<token user in jenkin\>@<jenkin ip\>/project/<pipeline address on jenkins\>
+- url: 
+Gitlab: http://<user on jenkins\>:<token user in jenkin\>@<jenkin ip\>/project/<pipeline address on jenkins\>
+Github: http://<user on jenkins\>:<token user in jenkin\>@<jenkin ip\>github-webhook/
 - Tick tag event, merge request, remove enable ssl
 - In pipeline: add branch develop
 - Jenkinsfile: www.jenkins.io/doc/book/pipeline/syntax
