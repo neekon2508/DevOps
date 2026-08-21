@@ -778,3 +778,7 @@ environment: - JAVA_OPTS=-Xmx512m -Xms256m -XX:MaxMetaspaceSize=256m
 ```
 
 ```
+
+- Cấu hình ACL: bất kì file/folder được tạo trong /datas sẽ tự động cấp quyền độc cho Nginx
+sudo setfacl -R -m u:www-data:rX /datas
+sudo setfacl -R -d -m u:www-data:rX /datas
